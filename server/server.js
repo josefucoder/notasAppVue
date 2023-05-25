@@ -2,6 +2,8 @@
 require("./config/config");
 
 const express = require('express')
+const mongoose = require('mongoose')
+
 const app = express()
 
 const bodyParser = require('body-parser')
@@ -16,43 +18,22 @@ app.get('/', function (req, res) {
   res.json('get /')
 });
 
-app.get('/usuario', function (req, res) {
-  res.json('get Usuario')
-});
+app.use( require('./routes/usuario'));
 
-app.post('/usuario', function (req, res) {
+// const database = async () => {
+//   await mongoose.connect('mongodb://localhost:27017/cafe')
+// }
 
-  let body = req.body
+// database()
+// .then(() => console.log('Connected!'))
+// .catch(err => console.log(err));
 
-  if ( body.nombre === undefined ) {
-    res.status(400).json({
-      ok: false,
-      mensaje: "El nombre es necesario"
-    })
-  } else {
-    
-    res.json({
-      persona: body
-    });
-  }
+// conectar con DB Local
+// mongoose.connect('mongodb://127.0.0.1:27017/cafe')
 
-  
-});
-
-/* Asi se obtiene un parametro por ejemplo un id con NodeJS*/
-
-app.put('/usuario/:id', function (req, res) {
-
-  let id = req.params.id;
-
-  res.json({
-    id
-  });
-});
-
-app.delete('/usuario', function (req, res) {
-  res.json('delete Usuario')
-});
+mongoose.connect(process.env.URLDB)
+.then(() => console.log('BASE DE DATOS CONECTADA!'))
+.catch(err => console.log(err));
 
 app.listen(process.env.PORT, ()=>{
     console.log("Escuchando en el puerto: ", process.env.PORT)
