@@ -18,7 +18,9 @@ app.get('/', function (req, res) {
   res.json('get /')
 });
 
-app.use( require('./routes/usuario'));
+// CONFIGURACION GLOBAL DE RUTAS
+
+app.use( require('./routes/index'));
 
 // const database = async () => {
 //   await mongoose.connect('mongodb://localhost:27017/cafe')
