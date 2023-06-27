@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Usuario</title>
+</head>
+<body>
+<!-- formulario HTML -->
+<form action="/usuarioform" id="miFormulario">
+    <!-- inputs del formulario -->
+    <input type="text" name="nombre">
+    <input type="text" name="email">
+    <input type="text" name="password">
+    <!-- botón para enviar el formulario -->
+    <button>Enviar</button>
+  
+    <!-- div para mostrar la salida -->
+    <div id="salida"></div>
+  </form>
+  
+  <script>
+
+    const formulario = document.getElementById('miFormulario');
+    
+    formulario.addEventListener("submit", (event)=>{
+
+        event.preventDefault();
+
+        const data = Object.fromEntries(
+            new FormData(event.target)
+        );
+
+        console.log(data)
+
+    fetch(`/usuarioform`, {
+    method: 'POST',
+    headers: { 'Content-type':'application/json' },
+    body: JSON.stringify(data)
+    })
+    .then(response => {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error('Error en la respuesta del servidor');
+    }
+    })
+    .then(data => {
+    // Procesar la salida del servidor y actualizar la vista
+    console.log(data)
+    document.getElementById('salida').textContent = "REGISTRO EXITOSO";
+    })
+    .catch(error => {
+    console.error('Error al procesar la solicitud:', error);
+    document.getElementById('salida').textContent = error;
+    });
+    })
+  </script>
+    
+</body>
+</html>

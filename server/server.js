@@ -3,6 +3,7 @@ require("./config/config");
 
 const express = require('express')
 const mongoose = require('mongoose')
+const path = require('path');
 
 const app = express()
 
@@ -14,9 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-  res.json('get /')
-});
+// HABILITAR LA CARPETA PUBLIC PARA SER ACCEDIDA DESDE CUALQUIER LUGAR
+
+app.use( express.static( path.resolve(  __dirname, '../public')  ) );
+
 
 // CONFIGURACION GLOBAL DE RUTAS
 

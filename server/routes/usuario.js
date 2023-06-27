@@ -87,37 +87,43 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role] , (req, res)=> {
 
     });
     
-    // usuario.save(function (err, usuarioDB) {
-           
-    //     if (err) {
-    //         return res.status(400).json({
-    //             ok: false,
-    //             err
-    //           });
-    //     }
-
-    //     res.json({
-    //         ok: true,
-    //         usuario: usuarioDB
-    //     });
-    // })
-    
-
-  
-    // if ( body.nombre === undefined ) {
-    //   res.status(400).json({
-    //     ok: false,
-    //     mensaje: "El nombre es necesario"
-    //   })
-    // } else {
-      
-    //   res.json({
-    //     persona: body
-    //   });
-    // }
-  
-    
   });
+
+// EL DE ARRIBA ES PARA EL REGISTRO NORMAL
+// EL DE ABAJO ES PARA EL REGISTRO DESDE FORMULARIO
+
+app.post('/usuarioform', (req, res)=> {
+  
+  let body = req.body
+
+  let usuario = new Usuario({
+      nombre: body.nombre,
+      email: body.email,
+      password: bcrypt.hashSync(body.password, 10) ,
+      role: body.role
+  })
+
+  usuario.save().then((user) => {
+
+    // user.password = null;
+
+    res.json({
+              ok: true,
+              usuario: user
+          });
+        
+      
+
+  }).catch((err) => {
+
+    return res.status(400).json({
+                  ok: false,
+                  err
+                });
+
+  });
+  
+});
   
   /* Asi se obtiene un parametro por ejemplo un id con NodeJS*/
   
@@ -158,15 +164,6 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role] , (req, res)=> {
     Usuario.findByIdAndUpdate(id, cambiaEstado , { new: true})
     .then(userDelete => {
 
-      if (!userDelete) {
-         
-        return res.status(400).json({
-          ok: false,
-          error: { 
-            message: "Usuario ya borrado" }
-        })
-      }
-
       res.json({
       ok: true,
       usuario: userDelete
@@ -174,12 +171,11 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role] , (req, res)=> {
 })
     .catch(err => {
   
-if (err) {
     return res.status(400).json({
       ok: false,
       err
           });
-         }
+  
 });
 
 
