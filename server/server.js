@@ -1,39 +1,22 @@
 
 require("./config/config");
 
-const express = require('express')
-const mongoose = require('mongoose')
+const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express()
 
-const bodyParser = require('body-parser')
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
+app.use( express.urlencoded({ extended: true }) );
+app.use( express.json() );
 
 // HABILITAR LA CARPETA PUBLIC PARA SER ACCEDIDA DESDE CUALQUIER LUGAR
 
 app.use( express.static( path.resolve(  __dirname, '../public')  ) );
 
-
 // CONFIGURACION GLOBAL DE RUTAS
 
 app.use( require('./routes/index'));
-
-// const database = async () => {
-//   await mongoose.connect('mongodb://localhost:27017/cafe')
-// }
-
-// database()
-// .then(() => console.log('Connected!'))
-// .catch(err => console.log(err));
-
-// conectar con DB Local
-// mongoose.connect('mongodb://127.0.0.1:27017/cafe')
 
 mongoose.connect(process.env.URLDB)
 .then(() => console.log('BASE DE DATOS CONECTADA!'))

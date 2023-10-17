@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 // VERIFICAR TOKEN
 
 let verificaToken = ( req, res, next )=>{
+
+    // el req.get regresa informacion de la cabecera o HEADERS
        
     let token = req.get('token');
 
@@ -51,6 +53,7 @@ let verificaAdmin_Role = ( req, res, next)=> {
 
 let verificaTokenImg = ( req, res, next)=> {
 
+    // el req.query regresa informacion de la URL
     let token = req.query.token;
 
     jwt.verify(token, process.env.SEED, (err, decoded)=> {

@@ -24,7 +24,7 @@ process.env.SEED = process.env.SEED || 'este-es-el-seed-desarrollo';
 let urlDB;
 
 if (process.env.NODE_ENV === 'dev' ) {
-    urlDB = 'mongodb://127.0.0.1:27017/cafe';
+    urlDB = 'mongodb://127.0.0.1:27017/notas';
 } else {
    urlDB = process.env.MONGO_URI;
 }
